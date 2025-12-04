@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Grade 8 – KE & PE Interactive Simulator</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f7fb;
+      color: #222;
+    }
+    header {
+      background: #1e88e5;
+      color: white;
+      padding: 12px 20px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+    header p {
+      margin: 2px 0;
+      font-size: 0.95rem;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    .banner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: center;
+    }
+    .banner img {
+      max-width: 260px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+      object-fit: cover;
+    }
+    .banner-text {
+      flex: 1;
+      min-width: 240px;
+    }
+    .banner-text h2 {
+      margin-top: 0;
+    }
+    .section-card {
+      background: white;
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .section-card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .control-group {
+      background: #f0f4ff;
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+    .control-group label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .control-group input[type="number"] {
+      width: 100%;
+      padding: 4px 6px;
+      margin-bottom: 4px;
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    button {
+      border: none;
+      border-radius: 4px;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      background: #1e88e5;
+      color: white;
+    }
+    button.secondary {
+      background: #546e7a;
+    }
+    .output-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+      font-size: 0.95rem;
+    }
+    .output-item {
+      background: #f9fafc;
+      border-radius: 6px;
+      padding: 8px 10px;
+      border: 1px solid #dde3f0;
+      min-width: 140px;
+    }
+    .graphs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    canvas {
+      background: #ffffff;
+      border-radius: 6px;
+      border: 1px solid #e0e0e0;
+    }
+    ul.checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+    ul.checklist li::before {
+      content: "✅ ";
+    }
+    .questions ol {
+      padding-left: 18px;
+    }
+    .questions li {
+      margin-bottom: 6px;
+    }
+    .graph-choice {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .choice-card {
+      border: 1px solid #d0d4e0;
+      border-radius: 6px;
+      padding: 8px;
+      background: #fafbff;
+      text-align: center;
+    }
+    .choice-card img {
+      max-width: 100%;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      padding: 10px 0 20px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>KE &amp; PE Interactive Simulator – Grade 8 Physical Science</h1>
+  <p>School: Union School Haiti &nbsp;|&nbsp; Teacher: Mr. Richecard Dorcily</p>
+  <p>Energy powers everything we do – from the food we eat to the devices we use and the lights in our classroom.</p>
+</header>
+
+<div class="container">
+
+  <div class="banner section-card">
+    <!-- Images are in the SAME folder as index.html -->
+    <img src="test_tube_activity.jpg" alt="Students in the science lab">
+    <img src="lab_microscope" alt="Students working on a science experiment">
+    <div class="banner-text">
+      <h2>Interactive Review – Energy Before the Semester Exam</h2>
+      <p>This page helps you explore how changing <strong>mass</strong>, <strong>speed</strong>, and <strong>height</strong> affects:</p>
+      <ul>
+        <li>Kinetic Energy (KE) = energy of motion</li>
+        <li>Potential Energy (PE) = energy of position or height</li>
+        <li>Mechanical Energy (ME) = KE + PE</li>
+      </ul>
+      <p>
+        <strong>Play with the simulator, watch the graphs change, and answer the questions to check your understanding.</strong>
+      </p>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3>🎯 Learning Objectives</h3>
+    <ul class="checklist">
+      <li>See how <strong>doubling, tripling, or halving</strong> mass, speed, or height changes KE and PE.</li>
+      <li>Interpret <strong>real-time graphs</strong> of KE vs. speed and PE vs. height.</li>
+      <li>Connect formulas to graphs and to real objects in motion.</li>
+      <li>Practice exam-style questions about energy, work, and mechanical energy.</li>
+    </ul>
+  </div>
+
+  <div class="section-card">
+    <h3>⚙️ KE &amp; PE Simulator</h3>
+    <p><strong>Formulas</strong>: &nbsp; KE = ½ m v² &nbsp;&nbsp;&nbsp; PE = m g h (take g = 9.8 m/s²)</p>
+
+    <div class="controls">
+      <div class="control-group">
+        <label for="massInput">Mass (kg)</label>
+        <input id="massInput" type="number" min="0" step="0.5" value="2">
+        <div class="btn-row">
+          <button onclick="scaleParam('mass',0.5)">½ mass</button>
+          <button onclick="scaleParam('mass',2)">Double mass</button>
+          <button onclick="scaleParam('mass',3)">Triple mass</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="speedInput">Speed (m/s)</label>
+        <input id="speedInput" type="number" min="0" step="0.5" value="3">
+        <div class="btn-row">
+          <button onclick="scaleParam('speed',0.5)">½ speed</button>
+          <button onclick="scaleParam('speed',2)">Double speed</button>
+          <button onclick="scaleParam('speed',3)">Triple speed</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="heightInput">Height (m)</label>
+        <input id="heightInput" type="number" min="0" step="0.5" value="2">
+        <div class="btn-row">
+          <button onclick="scaleParam('height',0.5)">½ height</button>
+          <button onclick="scaleParam('height',2)">Double height</button>
+          <button onclick="scaleParam('height',3)">Triple height</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="output-box">
+      <div class="output-item">
+        <strong>Current KE</strong><br>
+        <span id="keValue">–</span> J
+      </div>
+      <div class="output-item">
+        <strong>Current PE</strong><br>
+        <span id="peValue">–</span> J
+      </div>
+      <div class="output-item">
+        <strong>Mechanical Energy (ME)</strong><br>
+        <span id="meValue">–</span> J
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3>📈 Real-Time Graphs</h3>
+    <p>
+      The graphs update every time you change mass, speed, or height.
+      They show how KE depends on speed and how PE depends on height for the <strong>current mass</strong>.
+    </p>
+    <div class="graphs-grid">
+      <div>
+        <h4>KE vs. Speed (mass fixed)</h4>
+        <canvas id="keChart" height="220"></canvas>
+      </div>
+      <div>
+        <h4>PE vs. Height (mass fixed)</h4>
+        <canvas id="peChart" height="220"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card questions">
+    <h3>📝 Practice Questions – Use the Simulator to Help You</h3>
+    <ol>
+      <li>
+        Set mass = 2 kg and speed = 3 m/s, height = 0 m.<br>
+        a) What is the KE? &nbsp; b) What is the PE? &nbsp; c) What is the ME?
+      </li>
+      <li>
+        Keep mass = 2 kg and double the speed. By what factor did KE change?
+        Explain using the formula KE = ½ m v².
+      </li>
+      <li>
+        Keep speed = 3 m/s and double the mass. Compare the new KE to the old KE.
+        Is the relationship between KE and mass linear or quadratic?
+      </li>
+      <li>
+        Set height = 1 m, then triple the height. How does PE change?
+        Is the relationship between PE and height linear or quadratic?
+      </li>
+      <li>
+        Choose your own values for m, v, and h. Record KE, PE, and ME.
+        Then change only one parameter (mass, speed, or height) and describe what happened.
+      </li>
+    </ol>
+  </div>
+
+  <div class="section-card">
+    <h3>📊 Graph Shape Check – Concept Questions</h3>
+    <p>For each situation, imagine how the graph should look and circle the correct choice on your worksheet.</p>
+
+    <ol>
+      <li>
+        Kinetic Energy vs. Mass (speed constant)<br>
+        <em>Is the correct graph a straight line (y ∝ x) or a curve (y ∝ x²)?</em>
+      </li>
+      <li>
+        Kinetic Energy vs. Speed (mass constant)<br>
+        <em>Is the correct graph a straight line (y ∝ x) or a curve (y ∝ x²)?</em>
+      </li>
+      <li>
+        Potential Energy vs. Mass (height constant)<br>
+        <em>Is the relationship linear or quadratic?</em>
+      </li>
+      <li>
+        Potential Energy vs. Height (mass constant)<br>
+        <em>Is the relationship linear or quadratic?</em>
+      </li>
+    </ol>
+
+    <!-- Example place for static graph images if you create them.
+         Put the PNG files in the same folder and update the filenames below. -->
+    <div class="graph-choice">
+      <div class="choice-card">
+        <strong>Example Linear Graph (y ∝ x)</strong>
+        <!-- <img src="linear_graph.png" alt="Linear graph example"> -->
+        <p>(Insert linear graph image here if you want)</p>
+      </div>
+      <div class="choice-card">
+        <strong>Example Curved Graph (y ∝ x²)</strong>
+        <!-- <img src="quadratic_graph.png" alt="Quadratic graph example"> -->
+        <p>(Insert curved graph image here if you want)</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Interactive KE &amp; PE review – designed by Mr. Richecard Dorcily for Grade 8 Physical Science.
+  </footer>
+</div>
+
+<script>
+  const g = 9.8;
+
+  const massInput = document.getElementById('massInput');
+  const speedInput = document.getElementById('speedInput');
+  const heightInput = document.getElementById('heightInput');
+
+  const keSpan = document.getElementById('keValue');
+  const peSpan = document.getElementById('peValue');
+  const meSpan = document.getElementById('meValue');
+
+  function computeEnergies() {
+    const m = parseFloat(massInput.value) || 0;
+    const v = parseFloat(speedInput.value) || 0;
+    const h = parseFloat(heightInput.value) || 0;
+
+    const KE = 0.5 * m * v * v;
+    const PE = m * g * h;
+    const ME = KE + PE;
+
+    keSpan.textContent = KE.toFixed(2);
+    peSpan.textContent = PE.toFixed(2);
+    meSpan.textContent = ME.toFixed(2);
+
+    updateCharts(m);
+  }
+
+  function scaleParam(param, factor) {
+    if (param === 'mass') {
+      massInput.value = (parseFloat(massInput.value) || 0) * factor;
+    } else if (param === 'speed') {
+      speedInput.value = (parseFloat(speedInput.value) || 0) * factor;
+    } else if (param === 'height') {
+      heightInput.value = (parseFloat(heightInput.value) || 0) * factor;
+    }
+    computeEnergies();
+  }
+
+  massInput.addEventListener('input', computeEnergies);
+  speedInput.addEventListener('input', computeEnergies);
+  heightInput.addEventListener('input', computeEnergies);
+
+  // --- Charts with Chart.js ---
+  const keCtx = document.getElementById('keChart').getContext('2d');
+  const peCtx = document.getElementById('peChart').getContext('2d');
+
+  const speedValues = [0,1,2,3,4,5,6,7,8,9,10];
+  const heightValues = [0,1,2,3,4,5,6,7,8,9,10];
+
+  const keChart = new Chart(keCtx, {
+    type: 'line',
+    data: {
+      labels: speedValues,
+      datasets: [{
+        label: 'KE (J)',
+        data: [],
+        fill: false,
+        tension: 0.1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        x: { title: { display: true, text: 'Speed (m/s)' } },
+        y: { title: { display: true, text: 'Kinetic Energy (J)' } }
+      }
+    }
+  });
+
+  const peChart = new Chart(peCtx, {
+    type: 'line',
+    data: {
+      labels: heightValues,
+      datasets: [{
+        label: 'PE (J)',
+        data: [],
+        fill: false,
+        tension: 0.1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        x: { title: { display: true, text: 'Height (m)' } },
+        y: { title: { display: true, text: 'Potential Energy (J)' } }
+      }
+    }
+  });
+
+  function updateCharts(mass) {
+    // Update KE vs speed
+    keChart.data.datasets[0].data = speedValues.map(v => 0.5 * mass * v * v);
+    keChart.update();
+
+    // Update PE vs height
+    peChart.data.datasets[0].data = heightValues.map(h => mass * g * h);
+    peChart.update();
+  }
+
+  // Initial compute
+  computeEnergies();
+</script>
+
+</body>
+</html>
